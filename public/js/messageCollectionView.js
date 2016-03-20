@@ -13,17 +13,12 @@ module.exports = Backbone.View.extend({
     this.addAll();
   },
   addOne: function(el){
-    
+
   },
   addAll: function(){
     this.$el.html('');
     console.log(this.collection);
     window.glob1 = this.collection;
     _.each(this.collection.models, this.addOne, this);
-  },
-  render: function(){
-    var markup = this.templateMsg;
-    this.$el.html(markup);
-    return this;
   }
 })
