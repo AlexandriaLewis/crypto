@@ -3,6 +3,7 @@ var tmpl = require('./templates');
 var _ = require('underscore');
 var $ =require('jquery');
 var messageModelView = require('./messageModelView');
+var messageCollection = require('./messageCollection');
 
 module.exports = Backbone.View.extend({
   el: '.sendMsgBody',
@@ -14,9 +15,9 @@ module.exports = Backbone.View.extend({
     this.render();
   },
   render: function(){
-    var markup = this.templateMsg;
-    this.$el.html(markup);
-    return this;
+    // var markup = this.templateMsg;
+    // this.$el.html(markup);
+    // return this;
   },
   addOne: function(el){
     var modelView = new messageModelView({model: el});

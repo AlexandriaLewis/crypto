@@ -119,6 +119,9 @@ $(document).ready(function(){
 },{"./adduserview":1,"./messageCollection":4,"./messageCollectionView":5,"./messageModel":6,"./messageModelView":7,"./sendMessageView":8,"./usercollection":10,"./usercollectionview":11,"backbone":14,"jquery":15}],4:[function(require,module,exports){
 var Backbone = require('backbone');
 var messageModel = require('./messageModel');
+var tmpl = require('./templates');
+var _ = require('underscore');
+var $ =require('jquery');
 
 module.exports = Backbone.Collection.extend({
   model: messageModel,
@@ -128,26 +131,29 @@ module.exports = Backbone.Collection.extend({
 
   },
 
-  // parse: function (data) {
-  //   var that = this;
-  //   window.glob3= data;
-  //   return _.map(data.photos.photo, function (el) {
-  //
-  //     return { photoUrl: that.buildImgUrl(el),
-  //              title: el.title,
-  //              dtUpload: el.dateupload
-  //            };
-  //   });
-  // },
+  parse: function (data) {
+    console.log(data);
+    var that = this;
+    window.glob3= data;
+    return _.map(data, function(el){
+      return {
+        hint: el.hint,
+        sender: el.sender.name,
+        scramble: el.scramble
+      }
+    });
+    // window.glob4 = parsedData;
+  }
 
 });
 
-},{"./messageModel":6,"backbone":14}],5:[function(require,module,exports){
+},{"./messageModel":6,"./templates":9,"backbone":14,"jquery":15,"underscore":16}],5:[function(require,module,exports){
 var Backbone = require('backbone');
 var tmpl = require('./templates');
 var _ = require('underscore');
 var $ =require('jquery');
 var messageModelView = require('./messageModelView');
+var messageCollection = require('./messageCollection');
 
 module.exports = Backbone.View.extend({
   el: '.sendMsgBody',
@@ -159,9 +165,9 @@ module.exports = Backbone.View.extend({
     this.render();
   },
   render: function(){
-    var markup = this.templateMsg;
-    this.$el.html(markup);
-    return this;
+    // var markup = this.templateMsg;
+    // this.$el.html(markup);
+    // return this;
   },
   addOne: function(el){
     var modelView = new messageModelView({model: el});
@@ -171,15 +177,10 @@ module.exports = Backbone.View.extend({
     this.$el.html('');
     window.glob1 = this.collection.models;
     _.each(this.collection.models, this.addOne, this);
-  },
-  render: function(){
-    var markup = this.templateMsg;
-    this.$el.html(markup);
-    return this;
   }
 })
 
-},{"./messageModelView":7,"./templates":9,"backbone":14,"jquery":15,"underscore":16}],6:[function(require,module,exports){
+},{"./messageCollection":4,"./messageModelView":7,"./templates":9,"backbone":14,"jquery":15,"underscore":16}],6:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
